@@ -55,7 +55,7 @@ namespace MoverLib.Models
         {
             var path = new Path(System.IO.Path.GetDirectoryName(file));
             var filename = new Filename(System.IO.Path.GetFileNameWithoutExtension(file));
-            var extension = new Extension(System.IO.Path.GetExtension(file)?.TrimStart('.'));
+            var extension = new Extension(System.IO.Path.GetExtension(file).TrimStart('.'));
             return new ScreenshotFile(path, filename, extension);
         }
 
@@ -63,8 +63,8 @@ namespace MoverLib.Models
         {
             return $@"
 {{
-    {Path}, 
-    {Filename}, 
+    {Path},
+    {Filename},
     {Extension},
     {BaseFilename}
 }}

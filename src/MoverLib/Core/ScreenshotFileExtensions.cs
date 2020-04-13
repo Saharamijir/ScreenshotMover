@@ -9,7 +9,7 @@ namespace MoverLib.Core
         public static Dictionary<BaseFilename, IEnumerable<ScreenshotFile>> GroupFiles(this IEnumerable<ScreenshotFile> files) =>
             files.GroupBy(f => f.BaseFilename)
                 .ToDictionary(
-                    x => x.Key, 
+                    x => x.Key,
                     x => x.Select(y => y)
                 );
     }

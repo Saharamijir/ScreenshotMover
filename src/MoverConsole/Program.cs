@@ -1,6 +1,4 @@
-﻿using System;
-using Fclp.Internals.Extensions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using MoverLib.Core;
 
 namespace MoverConsole
