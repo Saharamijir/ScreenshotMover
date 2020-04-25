@@ -53,7 +53,7 @@ namespace MoverLib.Models
 
         public static ScreenshotFile Create(string file)
         {
-            var path = new Path(System.IO.Path.GetDirectoryName(file));
+            var path = new Path(System.IO.Path.GetDirectoryName(file)!);
             var filename = new Filename(System.IO.Path.GetFileNameWithoutExtension(file));
             var extension = new Extension(System.IO.Path.GetExtension(file).TrimStart('.'));
             return new ScreenshotFile(path, filename, extension);

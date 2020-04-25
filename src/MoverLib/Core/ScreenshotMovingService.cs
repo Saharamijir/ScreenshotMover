@@ -9,9 +9,9 @@ namespace MoverLib.Core
 {
     public class ScreenshotMovingService : IScreenshotMovingService
     {
-        private readonly IApplicationSettings _settings;
+        private readonly IMoverLibSettings _settings;
 
-        public ScreenshotMovingService(IApplicationSettings settings)
+        public ScreenshotMovingService(IMoverLibSettings settings)
         {
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
@@ -22,10 +22,11 @@ namespace MoverLib.Core
             {
                 screenshotFiles.GroupFiles().AsParallel().WithDegreeOfParallelism(4).ForAll(x =>
                 {
-                    var basePath = _settings.IsRelativePath ? _settings.InputPath : _settings.OutputPath;
-                    var seriesPath = System.IO.Path.Combine(basePath, x.Key.Value);
+                    var basePath = _settings.IsRelativePath ? _settings.InputPath : _settings.OutputPath!;
+                    var (key, value) = x;
+                    var seriesPath = System.IO.Path.Combine(basePath, key.Value);
                     var directory = Directory.CreateDirectory(seriesPath);
-                    foreach (var screenshotFile in x.Value)
+                    foreach (var screenshotFile in value)
                     {
                         MoveFile(screenshotFile, directory);
                     }
