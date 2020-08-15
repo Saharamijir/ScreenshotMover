@@ -1,6 +1,6 @@
 namespace MoverLib.Config
 {
-    public interface IApplicationSettings
+    public interface IMoverLibSettings
     {
         bool IsRelativePath { get; }
         string InputPath { get; }

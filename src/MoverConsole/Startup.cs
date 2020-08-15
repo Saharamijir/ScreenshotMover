@@ -1,37 +1,25 @@
-using MoverLib.Config;
-using System;
 using Microsoft.Extensions.DependencyInjection;
-using Fclp;
+using MoverConsole.Config;
+using MoverConsole.Core;
+using MoverLib.Config;
 using MoverLib.Core;
 
 namespace MoverConsole
 {
-    public class Startup
+    internal static class Startup
     {
-        public void ConfigureServices(IServiceCollection services, string[] args)
+        internal static void ConfigureServices(this IServiceCollection services, ApplicationSettings settings)
         {
-            services.AddSingleton<IApplicationSettings>(s => ConfigureCommandLineParser(args).Object);
+            services.RegisterSettings(settings);
             services.AddTransient<IFileProvider, FileProvider>();
             services.AddTransient<IScreenshotMovingService, ScreenshotMovingService>();
+            services.AddTransient<IServiceRunner, ServiceRunner>();
         }
 
-        private static FluentCommandLineParser<ApplicationSettings> ConfigureCommandLineParser(string[] args)
+        private static void RegisterSettings(this IServiceCollection services, ApplicationSettings settings)
         {
-            var parser = new FluentCommandLineParser<ApplicationSettings>();
-            parser.Setup(arg => arg.InputPath)
-                .As('i', "InputPath")
-                .Required();
-            parser.Setup(arg => arg.OutputPath)
-                .As('o', "OutputPath");
-            parser.Setup(arg => arg.IsRelativePath)
-                .As('r', "RelativePath")
-                .SetDefault(true);
-            var result = parser.Parse(args);
-            if (result.HasErrors)
-            {
-                throw new ArgumentException(result.ErrorText);
-            }
-            return parser;
+            services.AddSingleton<IApplicationSettings>(s => settings);
+            services.RegisterMoverLib(settings);
         }
     }
 }
