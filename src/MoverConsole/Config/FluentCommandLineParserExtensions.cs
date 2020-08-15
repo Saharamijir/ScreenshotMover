@@ -7,7 +7,7 @@ namespace MoverConsole.Config
     {
         public static (FluentCommandLineParser<ApplicationSettings>, ICommandLineParserResult) ConfigureCommandLineParser(this string[] args)
         {
-            
+
             var parser = new FluentCommandLineParser<ApplicationSettings>();
             parser.SetupHelp("help", "h").WithHeader("HELP").Callback(x => Console.WriteLine(x)).UseForEmptyArgs();
             parser.Setup(arg => arg.InputPath)
@@ -24,10 +24,9 @@ namespace MoverConsole.Config
             return (parser, parser.Parse(args));
         }
 
-        public static FluentCommandLineParsingResult CustomResult(
+        public static FluentCommandLineParsingResult GetCustomResult(
             this ICommandLineParserResult parserResult)
         {
-
             if (parserResult.HelpCalled)
             {
                 return FluentCommandLineParsingResult.Help;
